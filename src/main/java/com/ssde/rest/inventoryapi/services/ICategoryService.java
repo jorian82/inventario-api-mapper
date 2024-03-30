@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface ICategoryService {
     public ResponseEntity<CategoryDtoResponseRest> search();
+
+    public ResponseEntity<CategoryDtoResponseRest> searchById(Long id);
 }

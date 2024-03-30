@@ -47,4 +47,9 @@ public class CategoryServiceTest implements ICategoryService{
         }
 
     }
+
+    @Override
+    public ResponseEntity<CategoryDtoResponseRest> searchById(Long id) {
+        return null;
+    }
 }

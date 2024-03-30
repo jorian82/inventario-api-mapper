@@ -3,9 +3,9 @@ package com.ssde.rest.inventoryapi.controllers;
 import com.ssde.rest.inventoryapi.responses.CategoryDtoResponseRest;
 import com.ssde.rest.inventoryapi.services.ICategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +23,10 @@ public class CategoryRestController {
     @GetMapping("/")
     public ResponseEntity<CategoryDtoResponseRest> searchCategories() {
         return categoryService.search();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDtoResponseRest> searchCategoryById(@PathVariable Long id) {
+        return categoryService.searchById(id);
     }
 }
