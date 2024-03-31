@@ -1,5 +1,6 @@
 package com.ssde.rest.inventoryapi.services;
 
+import com.ssde.rest.inventoryapi.entities.Category;
 import com.ssde.rest.inventoryapi.responses.CategoryDtoResponseRest;
 import org.springframework.http.ResponseEntity;
 
@@ -14,4 +15,6 @@ public interface ICategoryService {
     public ResponseEntity<CategoryDtoResponseRest> search();
 
     public ResponseEntity<CategoryDtoResponseRest> searchById(Long id);
+
+    public ResponseEntity<CategoryDtoResponseRest> save(Category cat);
 }

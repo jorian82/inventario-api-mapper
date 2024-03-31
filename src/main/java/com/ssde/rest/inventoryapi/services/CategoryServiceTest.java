@@ -1,5 +1,6 @@
 package com.ssde.rest.inventoryapi.services;
 
+import com.ssde.rest.inventoryapi.entities.Category;
 import com.ssde.rest.inventoryapi.models.CategoryDTO;
 import com.ssde.rest.inventoryapi.responses.CategoryDtoResponseRest;
 import org.springframework.context.annotation.Profile;
@@ -50,6 +51,11 @@ public class CategoryServiceTest implements ICategoryService{
 
     @Override
     public ResponseEntity<CategoryDtoResponseRest> searchById(Long id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<CategoryDtoResponseRest> save(Category cat) {
         return null;
     }
 }

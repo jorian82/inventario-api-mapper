@@ -1,5 +1,6 @@
 package com.ssde.rest.inventoryapi.services;
 
+import com.ssde.rest.inventoryapi.entities.Category;
 import com.ssde.rest.inventoryapi.mappers.ICategoryMapper;
 import com.ssde.rest.inventoryapi.models.CategoryDTO;
 import com.ssde.rest.inventoryapi.repositories.ICategoryRepository;
@@ -71,5 +72,30 @@ public class CategoryServiceImpl implements ICategoryService{
         }
 
         return new ResponseEntity<>(response,HttpStatus.valueOf(response.getMetadata().getFirst().get("data")));
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<CategoryDtoResponseRest> save(Category cat) {
+        CategoryDtoResponseRest response = new CategoryDtoResponseRest();
+        List<CategoryDTO> list = new ArrayList<>();
+
+        try{
+            CategoryDTO saved = categoryMapper.categoryToCategoryDto(categoryRepository.save(cat));
+            if(saved!=null){
+                list.add(saved);
+                response.getCategoryDTOResponse().setCategoryDtoList(list);
+                response.setMetadata(HttpStatus.CREATED.toString(), String.valueOf(HttpStatus.CREATED.value()),HttpStatus.CREATED.name());
+            } else {
+                response.setMetadata(HttpStatus.NOT_MODIFIED.toString(), String.valueOf(HttpStatus.NOT_MODIFIED.value()), HttpStatus.NOT_EXTENDED.name());
+                return new ResponseEntity<>(response,HttpStatus.NOT_MODIFIED);
+            }
+        } catch (Exception e) {
+            response.setMetadata(HttpStatus.INTERNAL_SERVER_ERROR.toString(), String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR.name());
+            e.getStackTrace();
+            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 }
