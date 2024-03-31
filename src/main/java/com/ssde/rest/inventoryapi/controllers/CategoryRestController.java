@@ -6,6 +6,7 @@ import com.ssde.rest.inventoryapi.responses.CategoryDtoResponseRest;
 import com.ssde.rest.inventoryapi.services.ICategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
  * on Fri, Mar 29 2024
  * at 16:41, inventory-api
  */
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/category")
