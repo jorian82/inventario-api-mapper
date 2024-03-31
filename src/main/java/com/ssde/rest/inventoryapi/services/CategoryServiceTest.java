@@ -63,4 +63,9 @@ public class CategoryServiceTest implements ICategoryService{
     public ResponseEntity<CategoryDtoResponseRest> update(Category cat, Long id) {
         return null;
     }
+
+    @Override
+    public ResponseEntity<CategoryDtoResponseRest> deleteById(Long id) {
+        return null;
+    }
 }

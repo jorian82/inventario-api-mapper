@@ -6,6 +6,7 @@ import com.ssde.rest.inventoryapi.responses.CategoryDtoResponseRest;
 import com.ssde.rest.inventoryapi.services.ICategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,5 +58,10 @@ public class CategoryRestController {
                 .updateDate(LocalDateTime.now())
                 .build();
         return categoryService.update(cat,id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CategoryDtoResponseRest> deleteCategoryById(@PathVariable Long id) {
+        return categoryService.deleteById(id);
     }
 }

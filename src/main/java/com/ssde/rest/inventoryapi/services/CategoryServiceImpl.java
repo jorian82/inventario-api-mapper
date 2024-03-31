@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class CategoryServiceImpl implements ICategoryService{
                     );
 
         } catch (Exception e) {
-            response.setMetadata("Response fail", "-1", String.format("Error getting the category: %d", id));
+            response.setMetadata(HttpStatus.INTERNAL_SERVER_ERROR.toString(), String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR.name());
             e.getStackTrace();
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -128,5 +127,23 @@ public class CategoryServiceImpl implements ICategoryService{
         }
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getMetadata().getFirst().get("data")));
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<CategoryDtoResponseRest> deleteById(Long id) {
+        CategoryDtoResponseRest response = new CategoryDtoResponseRest();
+        List<CategoryDTO> list = new ArrayList<>();
+
+        try {
+            categoryRepository.deleteById(id);
+            response.setMetadata(HttpStatus.OK.toString(), String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name());
+            response.getCategoryDTOResponse().setCategoryDtoList(list);
+        } catch (Exception e) {
+            response.setMetadata(HttpStatus.INTERNAL_SERVER_ERROR.toString(), String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR.name());
+            e.getStackTrace();
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
