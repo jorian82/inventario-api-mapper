@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,5 +98,35 @@ public class CategoryServiceImpl implements ICategoryService{
         }
 
         return new ResponseEntity<>(response,HttpStatus.CREATED);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<CategoryDtoResponseRest> update(Category cat, Long id) {
+        CategoryDtoResponseRest response = new CategoryDtoResponseRest();
+        List<CategoryDTO> list = new ArrayList<>();
+
+        try{
+            categoryRepository.findById(id).ifPresentOrElse(
+                    category -> {
+                        category.setName(cat.getName());
+                        category.setDescription(cat.getDescription());
+                        category.setUpdateDate(cat.getUpdateDate());
+                        Category resp = categoryRepository.save(category);
+                        list.add(categoryMapper.categoryToCategoryDto(resp));
+                        response.getCategoryDTOResponse().setCategoryDtoList(list);
+                        response.setMetadata(HttpStatus.CREATED.toString(), String.valueOf(HttpStatus.CREATED.value()), HttpStatus.CREATED.name());
+                    },
+                    () -> {
+                        response.setMetadata(HttpStatus.NOT_FOUND.toString(), "404", HttpStatus.NOT_FOUND.name());
+                    }
+            );
+        } catch (Exception e) {
+            response.setMetadata(HttpStatus.INTERNAL_SERVER_ERROR.toString(), String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()), HttpStatus.INTERNAL_SERVER_ERROR.name());
+            e.getStackTrace();
+            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.valueOf(response.getMetadata().getFirst().get("data")));
     }
 }

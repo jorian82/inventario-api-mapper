@@ -58,4 +58,9 @@ public class CategoryServiceTest implements ICategoryService{
     public ResponseEntity<CategoryDtoResponseRest> save(Category cat) {
         return null;
     }
+
+    @Override
+    public ResponseEntity<CategoryDtoResponseRest> update(Category cat, Long id) {
+        return null;
+    }
 }

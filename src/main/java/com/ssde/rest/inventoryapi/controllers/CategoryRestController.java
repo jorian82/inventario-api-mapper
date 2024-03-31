@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,5 +47,15 @@ public class CategoryRestController {
                 .build();
 
         return categoryService.save(cat);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDtoResponseRest> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO dto) {
+        Category cat = Category.builder()
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .updateDate(LocalDateTime.now())
+                .build();
+        return categoryService.update(cat,id);
     }
 }
